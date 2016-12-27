@@ -11,8 +11,7 @@ function BookDataHelper() { }
 BookDataHelper.prototype.requestBookData = function(isbnNumber) {
 	return this.getBookData(isbnNumber).then(
 		function(response) {
-			//console.log(response.result.ItemSearchResponse.Items.Item.ItemAttributes.TradeInValue.FormattedPrice);
-			return response.result.ItemSearchResponse.Items;
+			return response.result.ItemSearchResponse.Items.Item[0];
 		}
 	);
 };
@@ -28,14 +27,14 @@ BookDataHelper.prototype.getBookData = function(isbnNumber) {
 		'SearchIndex': 'Books',
 		'Keywords': isbnNumber,
 		'ResponseGroup': 'ItemAttributes',
-		'Sort': 'price'
+		'Sort': 'relevancerank'
 	});
 };
 
 BookDataHelper.prototype.formatBookTradeinValue = function(bookData) {
 	return _.template('The current trade-in value for ${title} is ${value}.')({
-		title: bookData.Item.ItemAttributes.Title,
-		value: bookData.Item.ItemAttributes.TradeInValue.FormattedPrice
+		title: bookData.ItemAttributes.Title,
+		value: bookData.ItemAttributes.TradeInValue.FormattedPrice
 	});
 };
 

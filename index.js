@@ -6,7 +6,7 @@ var app = new Alexa.app('booktradein');
 var BookDataHelper = require('./book_data_helper');
 
 app.launch(function(req, res) {
-	var prompt = 'To find the trade-in value of your book, tell me an ISBN number.';
+	var prompt = 'To find the trade-in value of your book, tell me a thirteen digit ISBN number.';
 	res.say(prompt).reprompt(prompt).shouldEndSession(false);
 });
 
@@ -18,9 +18,9 @@ app.intent('GetTradeinValue', {
 },
 	function(req, res) {
 		var isbn = req.slot('ISBN');
-		var reprompt = 'Tell me an ISBN number to get the trade-in value of your book.';
+		var reprompt = 'Tell me a thirteen digit ISBN number to get the trade-in value of your book.';
 		if (_.isEmpty(isbn)) {
-			var prompt = 'I didn\'t hear an ISBN number. Tell me an ISBN number.';
+			var prompt = 'I didn\'t hear a thirteen digit ISBN number. Tell me an ISBN number.';
 			res.say(prompt).reprompt(reprompt).shouldEndSession(false);
 			return true;
 		} else {
