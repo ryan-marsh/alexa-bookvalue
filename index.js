@@ -10,11 +10,12 @@ app.launch(function(req, res) {
 	res.say(prompt).reprompt(prompt).shouldEndSession(false);
 });
 
+
 app.intent('GetTradeinValue', {
 	'slots': {
 		'ISBN': 'AMAZON.NUMBER'
 	},
-	'utterances': ['{|isbn} {|number} {-|ISBN}']
+	'utterances': ['{|the value of|the trade-in value of} {|i.s.b.n.} {|number} {-|ISBN}']
 },
 	function(req, res) {
 		var isbn = req.slot('ISBN');
@@ -26,16 +27,29 @@ app.intent('GetTradeinValue', {
 		} else {
 			var bookHelper = new BookDataHelper();
 			bookHelper.requestBookData(isbn).then(function(bookData) {
-				console.log(bookData);
 				res.say(bookHelper.formatBookTradeinValue(bookData)).send();
 			}).catch(function(err) {
-				console.log(err.statusCode);
 				var prompt = 'I don\'t have a book that matches the ISBN number ' + isbn;
-				res.say(prompt).reprompt(reprompt).shouldEndSession(false).send();
+				res.say(prompt).shouldEndSession(true).send();
 			});
 			return false;
 		}
 	}
 );
+
+
+var exitFunction = function(req, res) {
+	var speechOut = 'Goodbye!';
+	res.say(speechOut);
+};
+
+app.intent('AMAZON.StopIntent', exitFunction);
+app.intent('AMAZON.CancelIntent', exitFunction);
+app.intent('AMAZON.HelpIntent', function(req, res) {
+	var speechOut = 'To request the Amazon trade-in value of a book, request it by its thirteen digit ISBN number. ' +
+		'For example, say nine seven eight zero three two one seven seven five six five eight to get ' +
+		'the Amazon trade-in value of Campbell Biology Tenth Edition.';
+	res.say(speechOut);
+});
 
 module.exports = app;
