@@ -11,7 +11,13 @@ function BookDataHelper() { }
 BookDataHelper.prototype.requestBookData = function(isbnNumber) {
 	return this.getBookData(isbnNumber).then(
 		function(response) {
-			return response.result.ItemSearchResponse.Items.Item[0];
+			var items = response.result.ItemSearchResponse.Items;
+
+			if (items.TotalResults > 1) {
+				return items.Item[0];
+			} else {
+				return items.Item;
+			}
 		}
 	);
 };
