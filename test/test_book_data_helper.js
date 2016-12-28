@@ -14,7 +14,7 @@ describe('BookDataHelper', function() {
 			it('returns isbn number', function() {
 				isbn_number = '0077861930';
 				var value = subject.requestBookData(isbn_number).then(function(obj) {
-					return obj.Item.ItemAttributes.ISBN;
+					return obj.ItemAttributes.ISBN;
 				});
 				return expect(value).to.eventually.eq(isbn_number);
 			});
@@ -23,12 +23,10 @@ describe('BookDataHelper', function() {
 
 	describe('#formatBookTradeinValue', function() {
 		var bookData = {
-			'Item': {
-				'ItemAttributes': {
-					'Title': 'Essentials of Life-Span Development',
-					'TradeInValue': {
-						'FormattedPrice': '$105.75'
-					}
+			'ItemAttributes': {
+				'Title': 'Essentials of Life-Span Development',
+				'TradeInValue': {
+					'FormattedPrice': '$105.75'
 				}
 			}
 		};
@@ -36,7 +34,7 @@ describe('BookDataHelper', function() {
 		context('with valid book data', function() {
 			it('formats the trade-in value as expected', function() {
 				expect(subject.formatBookTradeinValue(bookData)).to.eq(
-					'The current trade-in value for Essentials of Life-Span Development is $105.75.'
+					'The current Amazon trade-in value for Essentials of Life-Span Development is $105.75.'
 				);
 			});
 		});
