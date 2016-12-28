@@ -27,10 +27,10 @@ app.intent('GetTradeinValue', {
 		} else {
 			var bookHelper = new BookDataHelper();
 			bookHelper.requestBookData(isbn).then(function(bookData) {
-				res.say(bookHelper.formatBookTradeinValue(bookData)).send();
+				res.say(bookHelper.formatBookTradeinValue(bookData)).shouldEndSession(true).send();
 			}).catch(function(err) {
 				var prompt = 'I don\'t have a book that matches the ISBN number ' + isbn;
-				res.say(prompt).shouldEndSession(true).send();
+				res.say(prompt).reprompt(reprompt).shouldEndSession(true).send();
 			});
 			return false;
 		}
