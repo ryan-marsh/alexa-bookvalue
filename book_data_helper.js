@@ -38,7 +38,7 @@ BookDataHelper.prototype.getBookData = function(isbnNumber) {
 };
 
 BookDataHelper.prototype.formatBookTradeinValue = function(bookData) {
-	return _.template('The current trade-in value for ${title} is ${value}.')({
+	return _.template('The current Amazon trade-in value for ${title} is ${value}.')({
 		title: bookData.ItemAttributes.Title,
 		value: bookData.ItemAttributes.TradeInValue.FormattedPrice
 	});
