@@ -45,11 +45,15 @@ var exitFunction = function(req, res) {
 
 app.intent('AMAZON.StopIntent', exitFunction);
 app.intent('AMAZON.CancelIntent', exitFunction);
-app.intent('AMAZON.HelpIntent', function(req, res) {
-	var speechOut = 'To request the Amazon trade-in value of a book, request it by its thirteen digit ISBN number. ' +
-		'For example, say nine seven eight zero three two one seven seven five six five eight to get ' +
-		'the Amazon trade-in value of Campbell Biology Tenth Edition.';
-	res.say(speechOut);
+
+app.intent('AMAZON.HelpIntent', {
+	'slots': {},
+	'utterances': []
+},
+	function(req, res) {
+	var speechOut = 'To request the value of a book, say its thirteen digit ISBN number. ' +
+		'For example, say nine seven eight zero three two one seven seven five six five eight.';
+	res.say(speechOut).shouldEndSession(false);
 });
 
 module.exports = app;
